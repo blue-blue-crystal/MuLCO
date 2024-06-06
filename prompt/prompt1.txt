@@ -1,0 +1,51 @@
+'''
+
+def get_exemplar(coordinates):
+    exemplar = "Exemplar :" + "\n"
+    constraints = []
+    css_out = ""
+    for p_n, p_constraints in enumerate(coordinates,start=1):
+        elements = p_constraints.split()
+        type_s = ""
+        for element in elements:
+            e_lay = element.split(';')
+            e_type, left, top = e_lay[0], e_lay[1], e_lay[2]
+            width, height = e_lay[3], e_lay[4]
+            css_class = f".page_{p_n}_{e_type}"
+            css_prop = f"""
+                {{ left: {left}px; top: {top}px; 
+                   width: {width}px; height: {height}px; }}"""
+            type_s += (f"{e_type}") + " "
+            css_out += css_class + " " + css_prop + "\n"
+        constraints.append(type_s)
+    exemplar += "input=" + "\n" + str(constraints) + "\n"
+    exemplar += "output=" + "\n"
+    exemplar += css_out
+    return exemplar
+
+doc_layout = ['text0;26;23;68;24 text1;26;47;68;12 text2;26;59;68;17 title3;26;79;38;3 text4;26;83;68;24  text5;26;107;68;15 text6;26;124;68;4 text7;27;130;67;4 ',
+              'figure0;26;79;68;17 text1;26;97;68;14 text2;26;112;68;22 text3;26;73;68;2 text4;26;22;68;48 ',
+              'figure0;26;96;68;23 text1;26;60;68;12 text2;26;81;68;12 title3;26;122;68;12 text4;36;55;44;2  text5;30;76;43;2 text6;34;23;52;30 ',
+                ...  ]
+print(get_exemplar(doc_layout))
+
+
+Task Description: learn from the code above and follow the format above to complete the coordinates of input below
+Layout Domain: document layout
+Canvas Size: canvas width is 120px, canvas height is 160px
+Rules: different bounding boxes do not overlap; boundaries of all elements should not exceed the page size; keep the same left, right, top and bottom margins on each page; elements well aligned; keep the bounding boxes spaced; keep the same number of columns on each page.
+
+
+input = ["text0 text1 list2 text3 text4 title5 text6 text7 text8 "]
+output = ?
+
+
+Let's generate step by step. 
+First learn from the code above and determine how many columns you want to keep in all pages.
+Then determine the four margins on each page and calculate the rest space for elements.
+Next calculate how many elements in each column, set the space between each elements and determine each size.
+If you find any (top+height) of element extends beyond the margin, resize it to keep within the margin.
+Last follow the format above to complete the coordinates of the input and out.
+
+
+'''
